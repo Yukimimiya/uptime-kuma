@@ -660,6 +660,11 @@ app.use(function (req, res, next) {
                 bean.sshUsername = monitor.sshUsername;
                 bean.sshPassword = monitor.sshPassword;
                 bean.sftpPath = monitor.sftpPath;
+                bean.smbShare = monitor.smbShare;
+                bean.smbPath = monitor.smbPath;
+                bean.smbDomain = monitor.smbDomain;
+                bean.smbUsername = monitor.smbUsername;
+                bean.smbPassword = monitor.smbPassword;
                 bean.sshPrivateKey = monitor.sshPrivateKey;
                 bean.sshPassphrase = monitor.sshPassphrase;
                 bean.sshAuthMethod = monitor.sshAuthMethod;

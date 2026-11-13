@@ -208,6 +208,9 @@ class Monitor extends BeanModel {
             ntpRootDispersionThreshold: this.ntp_root_dispersion_threshold,
             ipFamily: this.ipFamily,
             sftpPath: this.sftpPath,
+            smbShare: this.smbShare,
+            smbPath: this.smbPath,
+            smbDomain: this.smbDomain,
             sshAuthMethod: this.sshAuthMethod || "password",
 
             // ping advanced options
@@ -258,6 +261,8 @@ class Monitor extends BeanModel {
                 rabbitmqUsername: this.rabbitmqUsername,
                 rabbitmqPassword: this.rabbitmqPassword,
                 sshUsername: this.sshUsername,
+                smbUsername: this.smbUsername,
+                smbPassword: this.smbPassword,
                 sshPassword: this.sshPassword,
                 sshPrivateKey: this.sshPrivateKey,
                 sshPassphrase: this.sshPassphrase,

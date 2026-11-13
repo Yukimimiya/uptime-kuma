@@ -62,6 +62,7 @@
                                         </option>
                                         <option value="websocket-upgrade">Websocket Upgrade</option>
                                         <option value="sftp">SFTP</option>
+                                        <option value="smb">SMB (Samba)</option>
                                     </optgroup>
 
                                     <optgroup :label="$t('monitorTypeSpecial')">
@@ -495,6 +496,7 @@
                                     monitor.type === 'snmp' ||
                                     monitor.type === 'sip-options' ||
                                     monitor.type === 'sftp' ||
+                                    monitor.type === 'smb' ||
                                     monitor.type === 'ntp'
                                 "
                                 class="my-3"
@@ -708,6 +710,7 @@
                                     monitor.type === 'snmp' ||
                                     monitor.type === 'sip-options' ||
                                     monitor.type === 'sftp' ||
+                                    monitor.type === 'smb' ||
                                     monitor.type === 'ntp' ||
                                     (monitor.type === 'globalping' &&
                                         monitor.subtype === 'ping' &&
@@ -813,6 +816,30 @@
                                     {{ $t("smtpHelpText") }}
                                 </div>
                             </div>
+
+                            <!-- SMB Monitor Fields -->
+                            <template v-if="monitor.type === 'smb'">
+                                <div class="my-3">
+                                    <label for="smb_share" class="form-label">SMB share name</label>
+                                    <input id="smb_share" v-model="monitor.smbShare" class="form-control" required placeholder="documents" />
+                                </div>
+                                <div class="my-3">
+                                    <label for="smb_path" class="form-label">Directory within share (empty = root)</label>
+                                    <input id="smb_path" v-model="monitor.smbPath" class="form-control" placeholder="folder/subfolder" />
+                                </div>
+                                <div class="my-3">
+                                    <label for="smb_domain" class="form-label">Domain / Workgroup</label>
+                                    <input id="smb_domain" v-model="monitor.smbDomain" class="form-control" placeholder="WORKGROUP" />
+                                </div>
+                                <div class="my-3">
+                                    <label for="smb_username" class="form-label">SMB username</label>
+                                    <input id="smb_username" v-model="monitor.smbUsername" class="form-control" required autocomplete="username" />
+                                </div>
+                                <div class="my-3">
+                                    <label for="smb_password" class="form-label">SMB password</label>
+                                    <HiddenInput id="smb_password" v-model="monitor.smbPassword" autocomplete="current-password" required="true"></HiddenInput>
+                                </div>
+                            </template>
 
                             <!-- SFTP Monitor Fields -->
                             <template v-if="monitor.type === 'sftp'">
@@ -3363,6 +3390,11 @@ const monitorDefaults = {
     rabbitmqPassword: "",
     conditions: [],
     sshAuthMethod: "password",
+    smbShare: "",
+    smbPath: "",
+    smbDomain: "WORKGROUP",
+    smbUsername: "",
+    smbPassword: "",
     ntpStratumThreshold: 5,
     ntpTimeOffsetThreshold: 1000,
     ntpRootDispersionThreshold: 500,
@@ -3845,6 +3877,8 @@ message HealthCheckResponse {
                     this.monitor.port = "123";
                 } else if (this.monitor.type === "sftp") {
                     this.monitor.port = "22";
+                } else if (this.monitor.type === "smb") {
+                    this.monitor.port = "445";
                 } else if (this.monitor.type === "globalping" && this.monitor.subtype === "ping") {
                     this.monitor.port = "80";
                 } else {
